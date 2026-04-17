@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khamis Team — All In One Loan</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,-apple-system,sans-serif;background:#111111;color:#fff;}
+.topbar{background:#111111;border-bottom:1px solid #2a2a2a;padding:16px 40px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand-dot{width:10px;height:10px;border-radius:50%;background:#E8621A;}
+.brand-name{font-size:15px;font-weight:600;color:#fff;letter-spacing:.3px;}
+.brand-sub{font-size:11px;color:#666;margin-top:1px;}
+.page-nav{display:flex;gap:6px;align-items:center;}
+.pn-btn{padding:6px 14px;border-radius:20px;border:1px solid #2a2a2a;background:transparent;font-size:11px;cursor:pointer;color:#666;transition:all 0.15s;white-space:nowrap;}
+.pn-btn.active{background:#E8621A;color:#fff;border-color:#E8621A;}
+.pn-btn:hover:not(.active){border-color:#E8621A;color:#E8621A;}
+.page-section{display:none;}
+.page-section.active{display:block;}
+
+/* ============ SHARED ============ */
+.hero{padding:64px 40px 48px;border-bottom:1px solid #1e1e1e;}
+.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#E8621A;margin-bottom:16px;}
+.hero-title{font-size:44px;font-weight:700;color:#fff;line-height:1.15;margin-bottom:16px;letter-spacing:-.5px;}
+.hero-title span{color:#E8621A;}
+.hero-sub{font-size:17px;color:#888;line-height:1.6;max-width:580px;margin:0 auto 32px;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:30px;padding:8px 18px;font-size:12px;color:#aaa;}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:#E8621A;}
+.hero-left{text-align:left;}
+.hero-left .hero-sub{margin:0 0 0 0;}
+.section{padding:48px 40px;}
+.section-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#E8621A;margin-bottom:6px;}
+.section-title{font-size:22px;font-weight:600;color:#fff;margin-bottom:8px;}
+.section-desc{font-size:14px;color:#777;line-height:1.65;max-width:660px;margin-bottom:28px;}
+.divider{height:1px;background:#1e1e1e;margin:0 40px;}
+.footnote{padding:24px 40px;border-top:1px solid #1e1e1e;font-size:11px;color:#444;line-height:1.6;}
+.eb{background:#161616;border:1px solid #222;border-radius:14px;padding:28px;margin-bottom:20px;}
+.eb.or{border-color:#3d2010;background:#160e08;}
+.eb-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;}
+.eb-label.gray{color:#555;}
+.eb-label.or{color:#E8621A;}
+.eb-title{font-size:17px;font-weight:600;color:#fff;margin-bottom:10px;}
+.eb-body{font-size:13px;color:#888;line-height:1.75;}
+.eb-body strong{color:#ccc;font-weight:600;}
+.callout{background:#160e08;border:1px solid #3d2010;border-radius:12px;padding:20px 24px;margin-bottom:20px;}
+.callout-title{font-size:13px;font-weight:600;color:#E8621A;margin-bottom:6px;}
+.callout-body{font-size:13px;color:#888;line-height:1.7;}
+.callout-body strong{color:#ccc;font-weight:600;}
+
+/* ============ PAGE 1 ============ */
+.what-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:48px;}
+.what-card{background:#161616;border:1px solid #222;border-radius:14px;padding:24px;}
+.what-card-icon{width:40px;height:40px;border-radius:10px;background:#1e1e1e;border:1px solid #2a2a2a;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+.what-card-icon svg{width:20px;height:20px;stroke:#E8621A;fill:none;stroke-width:1.8;}
+.what-card-title{font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;}
+.what-card-body{font-size:13px;color:#888;line-height:1.65;}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#1e1e1e;border:1px solid #1e1e1e;border-radius:14px;overflow:hidden;margin-bottom:48px;}
+.stat-cell{background:#111;padding:28px 24px;text-align:center;}
+.stat-val{font-size:32px;font-weight:700;color:#E8621A;line-height:1;margin-bottom:6px;}
+.stat-label{font-size:12px;color:#666;line-height:1.4;}
+.how-steps{display:flex;flex-direction:column;}
+.how-step{display:flex;gap:20px;padding:24px 0;border-bottom:1px solid #1e1e1e;}
+.how-step:last-child{border-bottom:none;}
+.step-num{width:34px;height:34px;border-radius:50%;background:#E8621A;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:2px;}
+.step-title{font-size:15px;font-weight:600;color:#fff;margin-bottom:6px;}
+.step-body{font-size:13px;color:#888;line-height:1.7;}
+.step-body strong{color:#ccc;font-weight:600;}
+
+/* ============ PAGE 2 ============ */
+.amort-visual{margin:4px 0 8px;}
+.amort-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.amort-yr{font-size:12px;color:#555;width:48px;flex-shrink:0;}
+.amort-bar-wrap{flex:1;height:22px;background:#1a1a1a;border-radius:4px;overflow:hidden;display:flex;}
+.amort-int{height:100%;background:#555;}
+.amort-pri{height:100%;background:#E8621A;}
+.amort-pct{font-size:11px;color:#555;width:140px;flex-shrink:0;text-align:right;}
+.bar-legend{display:flex;gap:20px;margin-bottom:16px;font-size:12px;color:#666;}
+.bl-sw{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:5px;}
+.how-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;}
+.how-card{background:#161616;border:1px solid #222;border-radius:12px;padding:20px;}
+.how-card.or{background:#160e08;border-color:#3d2010;}
+.hc-title{font-size:13px;font-weight:600;color:#fff;margin-bottom:6px;}
+.hc-body{font-size:12px;color:#777;line-height:1.65;}
+.hc-body strong{color:#bbb;font-weight:600;}
+.formula-block{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:24px;margin-bottom:20px;}
+.formula-eq{font-size:15px;font-weight:600;color:#E8621A;margin-bottom:16px;font-family:monospace;letter-spacing:.3px;}
+.formula-example{background:#111;border:1px solid #222;border-radius:8px;padding:16px;}
+.fe-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#555;margin-bottom:10px;}
+.fe-row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid #1a1a1a;}
+.fe-row:last-child{border-bottom:none;}
+.fe-key{color:#666;}
+.fe-val{color:#ccc;font-weight:500;}
+.mf-wrap{background:#161616;border:1px solid #222;border-radius:14px;overflow:hidden;margin-bottom:8px;}
+.mf-title-row{background:#1a1a1a;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;}
+.mf-title{font-size:13px;font-weight:600;color:#fff;}
+.mf-subtitle{font-size:11px;color:#555;}
+.legend-row{display:flex;gap:16px;padding:10px 12px;border-bottom:1px solid #1a1a1a;flex-wrap:wrap;}
+.lr-item{display:flex;align-items:center;gap:6px;font-size:11px;color:#666;}
+.lr-bar{width:10px;height:10px;border-radius:2px;}
+.mf-header{display:grid;grid-template-columns:80px 1fr 120px 140px;}
+.mf-hcell{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#444;padding:8px 12px;}
+.mf-row{display:grid;grid-template-columns:80px 1fr 120px 140px;border-top:1px solid #1a1a1a;align-items:center;}
+.mf-row.event{background:#161616;}
+.mf-row.paycheck{background:#1a0e06;border-left:3px solid #E8621A;}
+.mf-row.cc{background:#0e1a0e;border-left:3px solid #3d7a3d;}
+.mf-row.interest{background:#1a1510;border-left:3px solid #7a6030;}
+.mf-row.month-sep{background:#1e1e1e;border-top:2px solid #333;}
+.mf-cell{font-size:12px;padding:10px 12px;color:#666;}
+.mf-cell.day{color:#555;font-weight:500;}
+.mf-cell.desc{color:#aaa;}
+.mf-cell.amt{font-family:monospace;text-align:right;}
+.mf-cell.bal{font-family:monospace;font-weight:600;text-align:right;}
+.mf-cell.or{color:#E8621A;}
+.mf-cell.green{color:#5a9a5a;}
+.mf-cell.amber{color:#c49a30;}
+.mf-cell.sep-label{color:#555;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;grid-column:1/-1;padding:8px 12px;}
+
+/* ============ PAGE 3 ============ */
+.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px;}
+.opt-card{border-radius:16px;overflow:hidden;border:1px solid #2a2a2a;}
+.opt-card.b-card{border-color:#3d2010;}
+.opt-header{padding:20px 24px;border-bottom:1px solid #1e1e1e;}
+.opt-header.a{background:#1a1a1a;}
+.opt-header.b{background:#1a0e06;}
+.opt-badge{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+.opt-badge.a{color:#888;}
+.opt-badge.b{color:#E8621A;}
+.opt-title-h{font-size:18px;font-weight:700;color:#fff;margin-bottom:4px;}
+.opt-subtitle{font-size:12px;color:#555;}
+.opt-body{background:#161616;padding:0;}
+.opt-body.b{background:#140c06;}
+.calc-section{padding:20px 24px;border-bottom:1px solid #1e1e1e;}
+.calc-section.b-sec{border-color:#2a1608;}
+.calc-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#E8621A;margin-bottom:14px;}
+.calc-label.gray{color:#555;}
+.payoff-row{display:flex;align-items:center;gap:16px;margin-bottom:16px;}
+.payoff-circle{width:80px;height:80px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;}
+.payoff-circle.aio{background:#1e0f06;border:2.5px solid #E8621A;}
+.payoff-circle.trad{background:#1a1a1a;border:2.5px solid #444;}
+.pc-num{font-size:22px;font-weight:700;color:#E8621A;line-height:1;}
+.pc-num.gray{color:#888;}
+.pc-label{font-size:9px;color:#777;text-transform:uppercase;letter-spacing:.5px;}
+.payoff-details{flex:1;}
+.pd-row{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;}
+.pd-key{color:#666;}
+.pd-val{font-weight:600;color:#ccc;}
+.pd-val.or{color:#E8621A;}
+.pd-val.red{color:#c0392b;}
+.saved-banner{background:#1e0f06;border:1px solid #3d2010;border-radius:10px;padding:14px 18px;margin:0 24px 16px;display:flex;justify-content:space-between;align-items:center;}
+.sb-label{font-size:12px;color:#888;}
+.sb-val{font-size:24px;font-weight:700;color:#E8621A;}
+.cc-section{padding:20px 24px;}
+.cc-row{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid #1a1a1a;font-size:13px;}
+.cc-row.b-border{border-bottom-color:#1e1208;}
+.cc-row:last-child{border-bottom:none;}
+.cc-key{color:#666;}
+.cc-val{font-weight:500;color:#bbb;font-family:monospace;}
+.cc-val.or{color:#E8621A;}
+.cc-total-row{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0 0;margin-top:4px;border-top:1px solid #333;font-size:14px;}
+.cc-total-key{color:#aaa;font-weight:600;}
+.cc-total-val{font-weight:700;color:#E8621A;font-family:monospace;font-size:16px;}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+.summary-card{background:#161616;border:1px solid #222;border-radius:12px;padding:20px;}
+.sc-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#555;margin-bottom:12px;}
+.sc-row{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid #1a1a1a;}
+.sc-row:last-child{border-bottom:none;}
+.sc-key{color:#666;}
+.sc-val{font-weight:500;color:#bbb;}
+.sc-val.or{color:#E8621A;}
+.sc-val.red{color:#c0392b;}
+.decision-box{background:#160e08;border:1px solid #3d2010;border-radius:14px;padding:24px;margin-bottom:8px;}
+.db-title{font-size:15px;font-weight:600;color:#E8621A;margin-bottom:10px;}
+.db-body{font-size:13px;color:#888;line-height:1.75;}
+.db-body strong{color:#ccc;font-weight:600;}
+.cc-group-label{font-size:11px;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:1px;margin:16px 0 8px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-dot"></div>
+    <div>
+      <div class="brand-name">Khamis Team</div>
+      <div class="brand-sub">Powered by CMG Financial · EPIQ Lending</div>
+    </div>
+  </div>
+  <div class="page-nav">
+    <button class="pn-btn active" onclick="showPage(0)">Overview</button>
+    <button class="pn-btn" onclick="showPage(1)">How each loan works</button>
+    <button class="pn-btn" onclick="showPage(2)">Your options</button>
+  </div>
+</div>
+
+<!-- ==================== PAGE 1: OVERVIEW ==================== -->
+<div class="page-section active" id="page-0">
+<div class="hero" style="text-align:center;">
+  <div class="hero-eyebrow">Introducing</div>
+  <div class="hero-title">The All In One Loan<span>.</span></div>
+  <div class="hero-sub">The only mortgage in America that functions as your checking account — using your everyday income to reduce interest every single day, automatically.</div>
+  <div class="hero-badge"><div class="hero-badge-dot"></div>30-year first-lien HELOC · Built-in sweep checking account · Patented U.S. product</div>
+</div>
+
+<div class="section">
+  <div class="section-label">What it is</div>
+  <div class="section-title">A mortgage that works like a bank account</div>
+  <div class="section-desc">Most people keep their mortgage and their checking account completely separate. The All In One Loan combines them — so every dollar you earn is working against your mortgage balance from the moment it arrives.</div>
+  <div class="what-grid">
+    <div class="what-card">
+      <div class="what-card-icon"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+      <div class="what-card-title">It's your checking account</div>
+      <div class="what-card-body">Debit card, ATM access, direct deposit, bill pay, mobile banking — it works exactly like the checking account you use today. The difference is where your money lives between deposits and spending.</div>
+    </div>
+    <div class="what-card">
+      <div class="what-card-icon"><svg viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg></div>
+      <div class="what-card-title">It's your mortgage</div>
+      <div class="what-card-body">It's a 30-year first-lien HELOC secured by your home. Every dollar deposited instantly reduces your principal balance — and interest is recalculated on that lower balance every single night.</div>
+    </div>
+    <div class="what-card">
+      <div class="what-card-icon"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+      <div class="what-card-title">Interest offsets daily</div>
+      <div class="what-card-body">Traditional mortgages charge interest on a fixed monthly balance. The AIO charges interest on your actual daily balance — meaning even a paycheck that sits for two weeks creates measurable, compounding interest savings.</div>
+    </div>
+    <div class="what-card">
+      <div class="what-card-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="what-card-title">Equity stays liquid</div>
+      <div class="what-card-body">As you pay down principal, that equity remains accessible through the line of credit — no refinance, no closing costs, no tax due on withdrawals. Your wealth is never locked away from you.</div>
+    </div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-cell"><div class="stat-val">30</div><div class="stat-label">Year draw period with full checking account access</div></div>
+    <div class="stat-cell"><div class="stat-val">Daily</div><div class="stat-label">Interest recalculated on actual balance — not monthly</div></div>
+    <div class="stat-cell"><div class="stat-val">$0</div><div class="stat-label">Prepayment penalty or balloon payment — ever</div></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="section-label">How it works</div>
+  <div class="section-title">Five things that make it different</div>
+  <div class="section-desc">The mechanics are simple. The impact compounds every single month.</div>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-title">Your paycheck goes directly into the loan</div>
+        <div class="step-body">Direct deposit hits the AIO account. Instantly, your principal balance drops by that amount. Interest begins calculating on a lower number from that day forward — before you've spent a single dollar.</div>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="step-num">2</div>
+      <div>
+        <div class="step-title">Interest recalculates every night on your actual balance</div>
+        <div class="step-body">A traditional mortgage calculates interest on the same fixed balance all month. The AIO looks at your real balance at the end of each day. <strong>Lower balance = less interest charged.</strong> This difference compounds into tens of thousands of dollars saved over the life of the loan.</div>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="step-num">3</div>
+      <div>
+        <div class="step-title">Spend on a rewards credit card — maximize every dollar</div>
+        <div class="step-body">Rather than spending directly from the AIO day-to-day, the optimal strategy is to <strong>put all purchases on a rewards credit card</strong> and pay the statement balance in full each month from the AIO. This keeps your full paycheck offsetting your mortgage balance for the entire billing cycle — typically 25 to 30 extra days per month. Meanwhile, <strong>you're earning points or cash back on every dollar you spend.</strong> The card costs you nothing as long as the balance is paid in full.</div>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="step-num">4</div>
+      <div>
+        <div class="step-title">Money saved is money earned</div>
+        <div class="step-body">Every dollar you earn from work is taxed before you see it. But every dollar you save in mortgage interest comes to you completely <strong>tax-free</strong>. That makes the AIO's savings worth more, dollar-for-dollar, than equivalent earned income. When the loan saves you hundreds of thousands in interest, that's money your household keeps at full value.</div>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="step-num">5</div>
+      <div>
+        <div class="step-title">Your equity is liquid — accessible anytime, structured to protect you</div>
+        <div class="step-body">As you pay down principal, available credit opens back up in the line. Need funds? <strong>Draw directly from the line — no new loan, no appraisal, no closing costs, no tax on the withdrawal.</strong> For the first 10 years, your full credit limit stays open. After year 10, the limit reduces by 1/240th each month — a gradual taper that ensures steady paydown while keeping equity accessible throughout.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footnote">This overview is for educational purposes only. Results vary based on individual cash flow, spending behavior, interest rate, and market conditions. The All In One Loan is a variable-rate product tied to a market index. · Khamis Team · CMG Financial</div>
+</div>
+
+<!-- ==================== PAGE 2: HOW EACH LOAN WORKS ==================== -->
+<div class="page-section" id="page-1">
+<div class="hero hero-left">
+  <div class="hero-eyebrow">Understanding the difference</div>
+  <div class="hero-title" style="font-size:36px;">How each loan actually works</div>
+  <div class="hero-sub" style="font-size:15px;">Two mortgages can have the exact same rate and loan amount — and produce completely different outcomes. The difference comes down to one thing: how and when interest is calculated.</div>
+</div>
+
+<div class="section">
+  <div class="section-label">Part one</div>
+  <div class="section-title">How a traditional mortgage amortizes</div>
+  <div class="section-desc">Amortization is the process of paying off a loan through fixed, scheduled payments over time. Here's exactly how it works — and why the early years look the way they do.</div>
+
+  <div class="eb">
+    <div class="eb-label gray">The mechanics</div>
+    <div class="eb-title">Fixed payment. Shifting split.</div>
+    <div class="eb-body">A traditional 30-year fixed mortgage has one payment amount that never changes. What does change — every single month — is how that payment is divided between interest and principal.<br><br><strong>Interest is front-loaded by design.</strong> When a loan is structured over 30 years, the math of dividing a large balance into equal payments means that interest naturally makes up a greater share of each payment in the early years. As the balance decreases over time, so does the interest portion — and the principal portion grows in its place. This isn't unique to any lender or product; it's simply the mathematical result of how long-term fixed payment loans are structured. The earlier you are in the loan, the more of each payment is going toward interest — and the slower your equity builds as a result.</div>
+  </div>
+
+  <div style="margin-bottom:28px;">
+    <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:6px;">How the payment splits over time — illustrative example</div>
+    <div style="font-size:12px;color:#555;margin-bottom:14px;">Each bar shows the approximate breakdown of one monthly payment in that year</div>
+    <div class="bar-legend">
+      <span><span class="bl-sw" style="background:#555;"></span>Interest portion</span>
+      <span><span class="bl-sw" style="background:#E8621A;"></span>Principal portion</span>
+    </div>
+    <div class="amort-visual" id="amortBars2"></div>
+    <div style="font-size:11px;color:#444;font-style:italic;margin-top:8px;">* Illustrative only — based on a representative 30-year fixed loan. Actual splits vary by rate and loan amount.</div>
+  </div>
+
+  <div class="eb">
+    <div class="eb-label gray">The crossover point</div>
+    <div class="eb-title">When principal finally takes the lead</div>
+    <div class="eb-body">On a 30-year fixed mortgage at a typical rate, you don't reach the point where more of your monthly payment goes to principal than to interest until roughly <strong>year 18 or 19</strong>. For the first two-thirds of the loan's life, interest dominates every payment.<br><br>This is simply how compound interest math works at scale. The structure is mathematically predictable — but it does mean that <strong>equity builds slowly in the early years</strong>, and total interest paid over 30 years can be substantial.</div>
+  </div>
+
+  <div class="eb">
+    <div class="eb-label gray">Equity access on a traditional loan</div>
+    <div class="eb-title">Equity builds — but it stays locked</div>
+    <div class="eb-body">As principal is paid down, equity accumulates in the home. However, that equity is <strong>not accessible without taking action</strong> — either a cash-out refinance or a separate HELOC, both of which require new applications, appraisals, and closing costs.<br><br>The fixed payment structure also means there's no built-in mechanism to accelerate payoff without making separate additional principal payments — which fewer than 4% of homeowners consistently do.</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="section-label">Part two</div>
+  <div class="section-title">How the All In One Loan amortizes</div>
+  <div class="section-desc">The AIO doesn't follow a traditional amortization schedule. Interest is calculated on your actual daily balance — which means your cash flow directly determines how fast the loan pays down.</div>
+
+  <div class="eb or">
+    <div class="eb-label or">The core difference</div>
+    <div class="eb-title">Daily interest on a real, live balance</div>
+    <div class="eb-body">On the AIO, interest is not calculated on a fixed monthly balance. It is calculated <strong>every single day</strong> based on whatever your actual outstanding balance is at the end of that day.<br><br>Every deposit you make immediately lowers the balance that interest is being calculated on. Every dollar in the account is actively working to reduce your interest cost from the moment it arrives. Those daily interest charges accumulate throughout the month and are collected as a <strong>single payment on the 21st of the following month.</strong></div>
+  </div>
+
+  <div style="margin-bottom:28px;">
+    <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:4px;">The daily interest formula</div>
+    <div style="font-size:12px;color:#555;margin-bottom:16px;">How interest is calculated each day — with a real example</div>
+    <div class="formula-block">
+      <div class="formula-eq">Daily Interest = Outstanding Balance × (Annual Rate ÷ 365)</div>
+      <div class="formula-example">
+        <div class="fe-label">Real example — day after a $10,000 paycheck deposits on a $500,000 balance at 7.00%</div>
+        <div class="fe-row"><span class="fe-key">Balance after deposit</span><span class="fe-val">$490,000</span></div>
+        <div class="fe-row"><span class="fe-key">Annual rate ÷ 365</span><span class="fe-val">7.00% ÷ 365 = 0.01918% per day</span></div>
+        <div class="fe-row"><span class="fe-key">Daily interest charged</span><span class="fe-val" style="color:#E8621A;">$490,000 × 0.0001918 = $93.99</span></div>
+        <div class="fe-row"><span class="fe-key">Without the deposit ($500,000)</span><span class="fe-val" style="color:#666;">$500,000 × 0.0001918 = $95.89</span></div>
+        <div class="fe-row"><span class="fe-key">Saved that single day</span><span class="fe-val" style="color:#E8621A;">$1.90 — from one deposit, on one day</span></div>
+      </div>
+    </div>
+    <div style="font-size:12px;color:#555;font-style:italic;">That $1.90 in daily savings may seem small — but multiplied across hundreds of days and tens of thousands in deposits cycling through, it compounds into dramatic payoff acceleration.</div>
+  </div>
+
+  <div style="margin-bottom:32px;">
+    <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:4px;">Two months in the life of an AIO — with the credit card strategy</div>
+    <div style="font-size:12px;color:#555;margin-bottom:16px;">Illustrative example — $500,000 loan, $10,000 semi-monthly paycheck, ~$6,000/month expenses on credit card</div>
+    <div class="mf-wrap">
+      <div class="mf-title-row">
+        <div class="mf-title">Month 1 & Month 2 — cash flow walkthrough</div>
+        <div class="mf-subtitle">Balance shown after each event</div>
+      </div>
+      <div class="legend-row">
+        <div class="lr-item"><div class="lr-bar" style="background:#E8621A;"></div>Paycheck deposit</div>
+        <div class="lr-item"><div class="lr-bar" style="background:#3d7a3d;"></div>Credit card payment</div>
+        <div class="lr-item"><div class="lr-bar" style="background:#7a6030;"></div>Interest collected</div>
+      </div>
+      <div class="mf-header">
+        <div class="mf-hcell">Day</div>
+        <div class="mf-hcell">Event</div>
+        <div class="mf-hcell" style="text-align:right;">Amount</div>
+        <div class="mf-hcell" style="text-align:right;">Loan Balance</div>
+      </div>
+      <div class="mf-row month-sep"><div class="mf-cell sep-label">— Month 1 begins —</div></div>
+      <div class="mf-row paycheck"><div class="mf-cell day">Day 1</div><div class="mf-cell desc">Paycheck 1 deposits directly into AIO</div><div class="mf-cell amt or">−$10,000</div><div class="mf-cell bal or">$490,000</div></div>
+      <div class="mf-row event"><div class="mf-cell day">Days 1–14</div><div class="mf-cell desc">Balance sits low — interest calculated daily on $490,000. Expenses go on credit card, not the AIO.</div><div class="mf-cell amt" style="color:#444;">—</div><div class="mf-cell bal" style="color:#444;">~$490,000</div></div>
+      <div class="mf-row paycheck"><div class="mf-cell day">Day 15</div><div class="mf-cell desc">Paycheck 2 deposits — balance drops further</div><div class="mf-cell amt or">−$10,000</div><div class="mf-cell bal or">$480,000</div></div>
+      <div class="mf-row event"><div class="mf-cell day">Days 15–21</div><div class="mf-cell desc">Balance sits at $480,000 — daily interest at its lowest point this month</div><div class="mf-cell amt" style="color:#444;">—</div><div class="mf-cell bal" style="color:#444;">~$480,000</div></div>
+      <div class="mf-row cc"><div class="mf-cell day">Day 22</div><div class="mf-cell desc">Credit card statement due — full balance paid from AIO. Month's expenses covered.</div><div class="mf-cell amt green">+$6,000</div><div class="mf-cell bal" style="color:#aaa;">$486,000</div></div>
+      <div class="mf-row interest"><div class="mf-cell day">Day 21*</div><div class="mf-cell desc">Monthly interest collected — sum of all daily charges. Much lower than traditional loan.</div><div class="mf-cell amt amber">~$2,820</div><div class="mf-cell bal" style="color:#555;">collected</div></div>
+      <div class="mf-row event"><div class="mf-cell day">End M1</div><div class="mf-cell desc">Month 1 closes. Principal reduced vs. starting balance — $20,000 in paychecks offset interest all month.</div><div class="mf-cell amt" style="color:#444;">—</div><div class="mf-cell bal or">~$486,000</div></div>
+      <div class="mf-row month-sep"><div class="mf-cell sep-label">— Month 2 begins — balance already lower, interest already cheaper —</div></div>
+      <div class="mf-row paycheck"><div class="mf-cell day">Day 1</div><div class="mf-cell desc">Paycheck 1 deposits — starts lower than Month 1</div><div class="mf-cell amt or">−$10,000</div><div class="mf-cell bal or">$476,000</div></div>
+      <div class="mf-row event"><div class="mf-cell day">Days 1–14</div><div class="mf-cell desc">Daily interest on $476,000 — lower than Month 1 every single day</div><div class="mf-cell amt" style="color:#444;">—</div><div class="mf-cell bal" style="color:#444;">~$476,000</div></div>
+      <div class="mf-row paycheck"><div class="mf-cell day">Day 15</div><div class="mf-cell desc">Paycheck 2 deposits — balance at new low</div><div class="mf-cell amt or">−$10,000</div><div class="mf-cell bal or">$466,000</div></div>
+      <div class="mf-row event"><div class="mf-cell day">Days 15–21</div><div class="mf-cell desc">Daily interest on $466,000 — noticeably less than same period in Month 1</div><div class="mf-cell amt" style="color:#444;">—</div><div class="mf-cell bal" style="color:#444;">~$466,000</div></div>
+      <div class="mf-row cc"><div class="mf-cell day">Day 22</div><div class="mf-cell desc">Credit card statement paid in full from AIO</div><div class="mf-cell amt green">+$6,000</div><div class="mf-cell bal" style="color:#aaa;">$472,000</div></div>
+      <div class="mf-row interest"><div class="mf-cell day">Day 21*</div><div class="mf-cell desc">Monthly interest collected — lower than Month 1 because balance was lower every day</div><div class="mf-cell amt amber">~$2,740</div><div class="mf-cell bal" style="color:#555;">collected</div></div>
+      <div class="mf-row event"><div class="mf-cell day">End M2</div><div class="mf-cell desc">Balance $28,000 lower than start. Interest this month $80 less than Month 1 — and it keeps compounding.</div><div class="mf-cell amt" style="color:#444;">—</div><div class="mf-cell bal or">~$472,000</div></div>
+    </div>
+    <div style="font-size:11px;color:#444;font-style:italic;margin-top:8px;">* Interest is collected on the 21st of the following month. All figures are illustrative — actual amounts depend on your specific balance, rate, deposit timing, and spending.</div>
+  </div>
+
+  <div class="eb or">
+    <div class="eb-label or">The compounding effect</div>
+    <div class="eb-title">Small daily reductions. Enormous long-term savings.</div>
+    <div class="eb-body">Notice what happened between Month 1 and Month 2 — the interest charge dropped by roughly $80 simply because the balance was lower every single day. That pattern repeats every month.<br><br><strong>Lower balance → less interest charged → more cash flow reduces principal → balance drops faster → even less interest → repeat.</strong><br><br>This self-reinforcing cycle is what allows borrowers with consistent cash flow to pay off a 30-year loan in a fraction of the time.</div>
+  </div>
+
+  <div class="how-grid">
+    <div class="how-card or"><div class="hc-title">No fixed amortization schedule</div><div class="hc-body">Every month is different — entirely dependent on your average daily balance, shaped by your deposits and spending patterns.</div></div>
+    <div class="how-card or"><div class="hc-title">Interest collected on the 21st</div><div class="hc-body">All daily interest charges are totaled and collected as a single payment on the <strong>21st of the following month</strong>. Every dollar above that charge reduces your balance.</div></div>
+    <div class="how-card or"><div class="hc-title">The credit limit structure</div><div class="hc-body">For the <strong>first 10 years</strong>, your full credit limit stays open. After year 10, it reduces by <strong>1/240th per month</strong> — steady, predictable paydown while keeping equity accessible.</div></div>
+    <div class="how-card or"><div class="hc-title">You control the pace</div><div class="hc-body">The more cash flow cycling through the AIO — and the longer it sits before expenses are paid via credit card — the faster the loan pays down. <strong>Behavior drives outcome.</strong></div></div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">The key distinction</div>
+    <div class="callout-body">A traditional mortgage calculates interest on a <strong>scheduled, predetermined balance</strong> on a fixed timetable. The AIO calculates interest on your <strong>actual, real-time balance</strong> every single day — meaning your financial behavior directly determines how much interest you pay and how quickly your loan is eliminated.</div>
+  </div>
+</div>
+<div class="footnote">For educational purposes only. All figures are illustrative. Actual amortization varies by loan amount, rate, deposit timing, and cash flow. The All In One Loan is a variable-rate product. · Khamis Team · CMG Financial</div>
+</div>
+
+<!-- ==================== PAGE 3: OPTIONS ==================== -->
+<div class="page-section" id="page-2">
+<div class="hero hero-left">
+  <div class="hero-eyebrow">Personalized Analysis</div>
+  <div class="hero-title" style="font-size:36px;">Your two paths forward</div>
+  <div class="hero-sub" style="font-size:15px;">Both options are the All In One Loan at the same rate. The difference is how much you put down — and how much cash you keep in hand at closing.</div>
+</div>
+
+<div class="section">
+  <div class="section-label">AIO calculator results</div>
+  <div class="section-title">What the numbers say — both scenarios</div>
+  <div class="section-desc">Projected payoff timeline and total interest based on your income and cash flow — driven by loan balance, rate, and money applied to daily principal.</div>
+
+  <div class="opt-grid">
+    <div class="opt-card">
+      <div class="opt-header a">
+        <div class="opt-badge a">Option A — 85% LTV</div>
+        <div class="opt-title-h">$680,000 loan</div>
+        <div class="opt-subtitle">More down · smaller balance · lower interest</div>
+      </div>
+      <div class="opt-body">
+        <div class="calc-section">
+          <div class="calc-label gray">AIO payoff projection</div>
+          <div class="payoff-row">
+            <div><div class="payoff-circle aio"><div class="pc-num">5.5</div><div class="pc-label">years</div></div><div style="font-size:10px;color:#555;text-align:center;margin-top:4px;">AIO payoff</div></div>
+            <div><div class="payoff-circle trad"><div class="pc-num gray">30</div><div class="pc-label">years</div></div><div style="font-size:10px;color:#555;text-align:center;margin-top:4px;">Traditional</div></div>
+            <div class="payoff-details">
+              <div class="pd-row"><span class="pd-key">AIO total interest</span><span class="pd-val or">$157,213</span></div>
+              <div class="pd-row"><span class="pd-key">Traditional interest</span><span class="pd-val red">$787,702</span></div>
+              <div class="pd-row"><span class="pd-key">AIO payments</span><span class="pd-val">66</span></div>
+              <div class="pd-row"><span class="pd-key">AIO total expense</span><span class="pd-val">$837,213</span></div>
+              <div class="pd-row"><span class="pd-key">Trad. total expense</span><span class="pd-val red">$1,467,702</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="saved-banner"><div class="sb-label">Estimated interest saved vs. traditional</div><div class="sb-val">$630,489</div></div>
+        <div class="calc-section" style="padding-top:0;border-bottom:none;">
+          <div class="pd-row" style="padding:4px 0;font-size:13px;"><span style="color:#666;">Monthly PITI</span><span style="font-weight:600;color:#ccc;">$4,819.47</span></div>
+          <div class="pd-row" style="padding:4px 0;font-size:13px;"><span style="color:#666;">P&amp;I only</span><span style="font-weight:600;color:#ccc;">$4,194.47</span></div>
+          <div class="pd-row" style="padding:4px 0;font-size:13px;"><span style="color:#666;">Rate / APR</span><span style="font-weight:600;color:#ccc;">7.402% / 7.402%</span></div>
+          <div class="pd-row" style="padding:4px 0;font-size:13px;"><span style="color:#666;">LTV / CLTV</span><span style="font-weight:600;color:#ccc;">85% / 85%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="opt-card b-card">
+      <div class="opt-header b">
+        <div class="opt-badge b">Option B — 90% LTV</div>
+        <div class="opt-title-h">$720,000 loan</div>
+        <div class="opt-subtitle">Less down · more cash at close · slightly larger balance</div>
+      </div>
+      <div class="opt-body b">
+        <div class="calc-section b-sec">
+          <div class="calc-label">AIO payoff projection</div>
+          <div class="payoff-row">
+            <div><div class="payoff-circle aio"><div class="pc-num">5.7</div><div class="pc-label">years</div></div><div style="font-size:10px;color:#555;text-align:center;margin-top:4px;">AIO payoff</div></div>
+            <div><div class="payoff-circle trad"><div class="pc-num gray">30</div><div class="pc-label">years</div></div><div style="font-size:10px;color:#555;text-align:center;margin-top:4px;">Traditional</div></div>
+            <div class="payoff-details">
+              <div class="pd-row"><span class="pd-key">AIO total interest</span><span class="pd-val or">$167,947</span></div>
+              <div class="pd-row"><span class="pd-key">Traditional interest</span><span class="pd-val red">$834,037</span></div>
+              <div class="pd-row"><span class="pd-key">AIO payments</span><span class="pd-val">68</span></div>
+              <div class="pd-row"><span class="pd-key">AIO total expense</span><span class="pd-val">$887,947</span></div>
+              <div class="pd-row"><span class="pd-key">Trad. total expense</span><span class="pd-val red">$1,554,037</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="saved-banner"><div class="sb-label">Estimated interest saved vs. traditional</div><div class="sb-val">$666,090</div></div>
+        <div class="calc-section b-sec" style="padding-top:0;border-bottom:none;">
+          <div class="pd-row" style="padding:4px 0;font-size:13px;"><span style="color:#666;">Monthly PITI</span><span style="font-weight:600;color:#ccc;">$5,066.20</span></div>
+          <div class="pd-row" style="padding:4px 0;font-size:13px;"><span style="color:#666;">P&amp;I only</span><span style="font-weight:600;color:#ccc;">$4,441.20</span></div>
+          <div class="pd-row" style="padding:4px 0;font-size:13px;"><span style="color:#666;">Rate / APR</span><span style="font-weight:600;color:#ccc;">7.402% / 7.402%</span></div>
+          <div class="pd-row" style="padding:4px 0;font-size:13px;"><span style="color:#666;">LTV / CLTV</span><span style="font-weight:600;color:#ccc;">90% / 90%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="section-label">Closing costs</div>
+  <div class="section-title">What you bring to closing</div>
+  <div class="section-desc">Itemized breakdown for both options — same loan program, same lender fees. The difference is down payment and discount points tied to loan size.</div>
+
+  <div class="opt-grid">
+    <div class="opt-card">
+      <div class="opt-header a">
+        <div class="opt-badge a">Option A — $680,000 · 85% LTV</div>
+        <div class="opt-title-h" style="font-size:15px;">Closing cost breakdown</div>
+      </div>
+      <div class="opt-body">
+        <div class="cc-section">
+          <div class="cc-group-label">Lender &amp; third party fees</div>
+          <div class="cc-row"><span class="cc-key">Tax service fee</span><span class="cc-val">$70.00</span></div>
+          <div class="cc-row"><span class="cc-key">Appraisal desk fee</span><span class="cc-val">$50.00</span></div>
+          <div class="cc-row"><span class="cc-key">New account admin fee</span><span class="cc-val">$1,525.00</span></div>
+          <div class="cc-row"><span class="cc-key">Appraisal fee</span><span class="cc-val">$800.00</span></div>
+          <div class="cc-row"><span class="cc-key">Credit report fee</span><span class="cc-val">$60.00</span></div>
+          <div class="cc-row"><span class="cc-key">Credit verifications bundle</span><span class="cc-val">$385.00</span></div>
+          <div class="cc-row"><span class="cc-key">CDA fee</span><span class="cc-val">$205.00</span></div>
+          <div class="cc-row"><span class="cc-key">Title — settlement/closing</span><span class="cc-val">$982.00</span></div>
+          <div class="cc-row"><span class="cc-key">Title — closing protection letter</span><span class="cc-val">$50.00</span></div>
+          <div class="cc-row"><span class="cc-key">Title — lender's title insurance</span><span class="cc-val">$2,829.00</span></div>
+          <div class="cc-row"><span class="cc-key">Title — recording service fee</span><span class="cc-val">$62.50</span></div>
+          <div class="cc-row"><span class="cc-key">Recording fees (deed/mortgage/other)</span><span class="cc-val">$90.00</span></div>
+          <div class="cc-group-label">Discount points</div>
+          <div class="cc-row"><span class="cc-key">Loan discount points (1.750%)</span><span class="cc-val or">$11,900.00</span></div>
+          <div class="cc-group-label">Prepaids</div>
+          <div class="cc-row"><span class="cc-key">Hazard insurance premium</span><span class="cc-val">$1,800.00</span></div>
+          <div class="cc-row"><span class="cc-key">Up-front MIP / funding fee</span><span class="cc-val">$2,924.00</span></div>
+          <div class="cc-row"><span class="cc-key">Hazard insurance (3 mo.)</span><span class="cc-val">$450.00</span></div>
+          <div class="cc-row"><span class="cc-key">Property taxes (3 mo.)</span><span class="cc-val">$825.00</span></div>
+          <div class="cc-group-label">Summary</div>
+          <div class="cc-row"><span class="cc-key">Est. closing costs</span><span class="cc-val">$7,108.50</span></div>
+          <div class="cc-row"><span class="cc-key">Discount points</span><span class="cc-val or">$11,900.00</span></div>
+          <div class="cc-row"><span class="cc-key">Total prepaids</span><span class="cc-val">$5,999.00</span></div>
+          <div class="cc-row"><span class="cc-key">Down payment</span><span class="cc-val">$120,000.00</span></div>
+          <div class="cc-total-row"><span class="cc-total-key">Cash to close</span><span class="cc-total-val">$145,007.50</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="opt-card b-card">
+      <div class="opt-header b">
+        <div class="opt-badge b">Option B — $720,000 · 90% LTV</div>
+        <div class="opt-title-h" style="font-size:15px;">Closing cost breakdown</div>
+      </div>
+      <div class="opt-body b">
+        <div class="cc-section">
+          <div class="cc-group-label">Lender &amp; third party fees</div>
+          <div class="cc-row b-border"><span class="cc-key">Tax service fee</span><span class="cc-val">$70.00</span></div>
+          <div class="cc-row b-border"><span class="cc-key">Appraisal desk fee</span><span class="cc-val">$50.00</span></div>
+          <div class="cc-row b-border"><span class="cc-key">New account admin fee</span><span class="cc-val">$1,525.00</span></div>
+          <div class="cc-row b-border"><span class="cc-key">Appraisal fee</span><span class="cc-val">$800.00</span></div>
+          <div class="cc-row b-border"><span class="cc-key">Credit report fee</span><span class="cc-val">$60.00</span></div>
+          <div class="cc-row b-border"><span class="cc-key">Credit verifications bundle</span><span class="cc-val">$385.00</span></div>
+          <div class="cc-row b-border"><span class="cc-key">CDA fee</span><span class="cc-val">$205.00</span></div>
+          <div class="cc-row b-border"><span class="cc-key">Title — settlement/closing</span><span class="cc-val">$982.00</span></div>
+          <div class="cc-row b-border"><span class="cc-key">Title — closing protection letter</span><span class="cc-val">$50.00</span></div>
+          <div class="cc-row b-border"><span class="cc-key">Title — lender's title insurance</span><span class="cc-val">$2,829.00</span></div>
+          <div class="cc-row b-border"><span class="cc-key">Title — recording service fee</span><span class="cc-val">$62.50</span></div>
+          <div class="cc-row b-border"><span class="cc-key">Recording fees (deed/mortgage/other)</span><span class="cc-val">$90.00</span></div>
+          <div class="cc-group-label">Discount points</div>
+          <div class="cc-row b-border"><span class="cc-key">Loan discount points (1.750%)</span><span class="cc-val or">$12,600.00</span></div>
+          <div class="cc-group-label">Prepaids</div>
+          <div class="cc-row b-border"><span class="cc-key">Hazard insurance premium</span><span class="cc-val">$1,800.00</span></div>
+          <div class="cc-row b-border"><span class="cc-key">Up-front MIP / funding fee</span><span class="cc-val">$4,032.00</span></div>
+          <div class="cc-row b-border"><span class="cc-key">Hazard insurance (3 mo.)</span><span class="cc-val">$450.00</span></div>
+          <div class="cc-row b-border"><span class="cc-key">Property taxes (3 mo.)</span><span class="cc-val">$825.00</span></div>
+          <div class="cc-group-label">Summary</div>
+          <div class="cc-row b-border"><span class="cc-key">Est. closing costs</span><span class="cc-val">$7,108.50</span></div>
+          <div class="cc-row b-border"><span class="cc-key">Discount points</span><span class="cc-val or">$12,600.00</span></div>
+          <div class="cc-row b-border"><span class="cc-key">Total prepaids</span><span class="cc-val">$7,107.00</span></div>
+          <div class="cc-row b-border"><span class="cc-key">Down payment</span><span class="cc-val">$80,000.00</span></div>
+          <div class="cc-total-row"><span class="cc-total-key">Cash to close</span><span class="cc-total-val">$106,815.50</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="section-label">The decision</div>
+  <div class="section-title">How to think about the choice</div>
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="sc-label">Option A at a glance</div>
+      <div class="sc-row"><span class="sc-key">Loan amount</span><span class="sc-val">$680,000</span></div>
+      <div class="sc-row"><span class="sc-key">Cash to close</span><span class="sc-val">$145,008</span></div>
+      <div class="sc-row"><span class="sc-key">Monthly PITI</span><span class="sc-val">$4,819</span></div>
+      <div class="sc-row"><span class="sc-key">AIO payoff</span><span class="sc-val or">5.5 years</span></div>
+      <div class="sc-row"><span class="sc-key">Interest saved</span><span class="sc-val or">$630,489</span></div>
+      <div class="sc-row"><span class="sc-key">Down payment</span><span class="sc-val">$120,000</span></div>
+    </div>
+    <div class="summary-card" style="border-color:#3d2010;background:#140c06;">
+      <div class="sc-label" style="color:#E8621A;">Option B at a glance</div>
+      <div class="sc-row"><span class="sc-key">Loan amount</span><span class="sc-val">$720,000</span></div>
+      <div class="sc-row"><span class="sc-key">Cash to close</span><span class="sc-val">$106,816</span></div>
+      <div class="sc-row"><span class="sc-key">Monthly PITI</span><span class="sc-val">$5,066</span></div>
+      <div class="sc-row"><span class="sc-key">AIO payoff</span><span class="sc-val or">5.7 years</span></div>
+      <div class="sc-row"><span class="sc-key">Interest saved</span><span class="sc-val or">$666,090</span></div>
+      <div class="sc-row"><span class="sc-key">Down payment</span><span class="sc-val">$80,000</span></div>
+    </div>
+  </div>
+  <div class="decision-box">
+    <div class="db-title">The core tradeoff</div>
+    <div class="db-body">Option A puts <strong>$40,000 more down</strong> at closing, resulting in a smaller loan, a lower monthly payment, and slightly faster payoff. Option B preserves <strong>$38,192 more cash</strong> at closing — which, deposited directly into the AIO on day one, immediately begins offsetting interest on the larger balance.<br><br>Both scenarios pay off in under 6 years and save over $600,000 in interest compared to a traditional 30-year loan. The question is simply: <strong>where does that additional $38,192 work hardest for you</strong> — reducing the loan at closing, or sitting in the AIO from day one and offsetting daily interest?<br><br>Either path leads to the same destination. The AIO makes both scenarios powerful.</div>
+  </div>
+</div>
+<div class="footnote">This document is for informational purposes only. Figures are estimates subject to change based on final approval, appraisal, and closing conditions. This does not constitute a commitment or offer to lend. · EVO Home Loans LLC dba EPIQ Lending · NMLS #1936984 · Originator: Ricky Khamis · NMLS #173141 · Khamis Team · CMG Financial</div>
+</div>
+
+<script>
+function showPage(n){
+  document.querySelectorAll('.page-section').forEach((p,i)=>{
+    p.classList.toggle('active',i===n);
+  });
+  document.querySelectorAll('.pn-btn').forEach((b,i)=>{
+    b.classList.toggle('active',i===n);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+const rates=[0.97,0.94,0.90,0.84,0.76,0.64,0.45,0.20];
+const yrs=[1,3,5,8,12,17,22,28];
+const ab=document.getElementById('amortBars2');
+if(ab){yrs.forEach((y,i)=>{
+  const ip=Math.round(rates[i]*100);
+  const pp=100-ip;
+  ab.innerHTML+=`<div class="amort-row"><div class="amort-yr">Year ${y}</div><div class="amort-bar-wrap"><div class="amort-int" style="width:${ip}%"></div><div class="amort-pri" style="width:${pp}%"></div></div><div class="amort-pct">~${ip}% interest · ~${pp}% principal</div></div>`;
+});}
+</script>
+</body>
+</html>
